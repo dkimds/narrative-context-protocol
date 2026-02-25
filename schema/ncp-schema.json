@@ -29,6 +29,21 @@
                     "description": "ISO-8601 UTC timestamp (e.g., 2025-12-01T12:34:56Z).",
                     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
                 },
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "feature",
+                        "short_form",
+                        "web_series",
+                        "episode"
+                    ],
+                    "description": "Media format of the story (e.g., short_form for 90-120 second vertical video)."
+                },
+                "target_duration_seconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Target playback duration in seconds (e.g., 90 for 1.5 min, 120 for 2 min)."
+                },
                 "narratives": {
                     "type": "array",
                     "items": {
@@ -477,7 +492,8 @@
                                                                 "type": "string",
                                                                 "enum": [
                                                                     "space",
-                                                                    "time"
+                                                                    "time",
+                                                                    "duration"
                                                                 ]
                                                             },
                                                             "limit": {

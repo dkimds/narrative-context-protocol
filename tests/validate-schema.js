@@ -10,7 +10,8 @@ const validate = ajv.compile(schema);
 const validFixtures = [
   '../examples/example-story.json',
   '../examples/anora.json',
-  '../examples/the-shawshank-redemption.json'
+  '../examples/the-shawshank-redemption.json',
+  '../examples/short-form-drama.json'
 ];
 
 const invalidDir = path.join(__dirname, '../examples/invalid');

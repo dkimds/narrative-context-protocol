@@ -77,6 +77,61 @@ npm run validate:file -- /path/to/your-ncp.json
 3. If validation fails, fix the reported fields and run the same command again.
 4. If you maintain your own repository, copy the CI pattern from `/VALIDATION.md` so every PR validates NCP automatically.
 
+## Authoring Short-Form Drama with Claude Code
+
+NCP includes a Claude Code slash command for collaboratively writing short-form drama series (vertical video, 90–120 seconds per episode) episode by episode.
+
+### What It Does
+
+- You and Claude co-write one episode at a time, in Korean or English
+- Each episode has a complete arc: setup → conflict → twist → resolution (기승전결)
+- Episodes are structured as valid NCP JSON, ready to validate immediately
+- Series continuity (character IDs, storybeat sequence, arc progression) is managed automatically
+
+### Quick Start
+
+1. Open this repository in Claude Code
+2. Run the slash command:
+
+```
+/write-episodes
+```
+
+Or pass arguments directly:
+
+```
+/write-episodes <series title> <genre> <protagonist name>
+```
+
+3. Claude will ask you to confirm the series bible (title, characters, ending direction, episode length)
+4. Co-write episode by episode — Claude proposes, you give feedback, Claude outputs NCP JSON
+5. Save each episode and validate:
+
+```bash
+npm run validate:file -- ./productions/ep01.json
+```
+
+(Steps 3–5 repeat for each episode.)
+
+### Short-Form Schema Fields
+
+The schema supports two fields added for short-form content:
+
+| Field | Type | Example |
+| --- | --- | --- |
+| `story.format` | `"short_form"` | Marks this as a short-form story |
+| `story.target_duration_seconds` | integer | `90` for 1.5 min, `120` for 2 min |
+
+Each `moment` uses `fabric` with `type: "duration"` to constrain scene length in seconds:
+
+```json
+"fabric": [{ "type": "duration", "limit": 30 }]
+```
+
+See `examples/short-form-drama.json` for a complete single-episode example.
+
+---
+
 ## Repository Structure
 ```
 narrative-context-protocol/
