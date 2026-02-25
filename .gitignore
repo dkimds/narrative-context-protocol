@@ -22,3 +22,4 @@ build/
 
 # Unreleased production content (episode scripts + generated PDFs)
 productions/
+/.claude/worktrees/infallible-ishizaka
