@@ -97,6 +97,31 @@ IC: [이름] — [설명]
 에피소드 길이: [90/120]초
 ```
 
+확인 후 즉시 **시리즈 스키마 상수(Series Constants)**를 생성하고 출력한다.
+이것은 코드의 `constants.ts`에 해당한다. 한 번 정의하면 시리즈 전체에서 동일한 UUID를 재사용한다.
+
+```json
+// 참조용 (productions/series-constants.json 으로 저장 권장)
+{
+    "perspectives": {
+        "mc":   {"id": "[UUID-생성]", "author_structural_pov": "i"},
+        "ic":   {"id": "[UUID-생성]", "author_structural_pov": "you"},
+        "rs":   {"id": "[UUID-생성]", "author_structural_pov": "we"},
+        "os":   {"id": "[UUID-생성]", "author_structural_pov": "they"}
+    },
+    "players": {
+        "mc": {"id": "[UUID-생성]", "name": "[MC 이름]", "perspective_id": "[mc UUID]"},
+        "ic": {"id": "[UUID-생성]", "name": "[IC 이름]", "perspective_id": "[ic UUID]"}
+    }
+}
+```
+
+**규칙:**
+- `perspectives` 4개 UUID는 시리즈 종료까지 절대 변경하지 않는다
+- 등장인물이 추가될 때마다 `players`에 새 UUID를 생성해서 등록한다
+- 조연/단역은 `"they"` (os) perspective를 공유할 수 있다
+- 에피소드 작성 시 이 UUID를 그대로 복사한다 — 절대 새로 만들지 않는다
+
 확인 전까지 에피소드 작성 시작 금지.
 
 ---
