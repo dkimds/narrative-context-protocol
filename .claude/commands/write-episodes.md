@@ -173,7 +173,7 @@ IC: [이름] — [설명]
 #### D. 저장 안내
 
 ```
-위 JSON을 examples/ep[NN].json 으로 저장하세요.
+위 JSON을 productions/ep[NN].json 으로 저장하세요.
 저장 후 검증: npm run validate:file -- ./examples/ep[NN].json
 ```
 
