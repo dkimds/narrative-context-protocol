@@ -4,8 +4,12 @@
 /**
  * gen_pdf.js — NCP 에피소드 JSON → 드라마 기획서 PDF
  *
- * Usage: npm run pdf
- * Output: productions/{시리즈-제목}.pdf
+ * Usage:
+ *   npm run pdf                          → 제목/파일명 ep01.json에서 자동 감지
+ *   npm run pdf -- "제목"               → 제목 직접 지정, 파일명은 제목에서 자동
+ *   npm run pdf -- "제목" "파일명.pdf"  → 제목과 파일명 모두 직접 지정
+ *
+ * Output: productions/{파일명}.pdf
  */
 
 const PDFDocument = require('pdfkit');
@@ -411,10 +415,20 @@ function main() {
         process.exit(1);
     }
 
-    const seriesTitle = parseSeriesTitle(episodes[0]);
+    // CLI 인수 처리
+    const argTitle  = process.argv[2]; // "제목"
+    const argOutput = process.argv[3]; // "파일명.pdf" (선택)
+
+    const seriesTitle = argTitle || parseSeriesTitle(episodes[0]);
     const genre       = safe(episodes[0].story?.genre);
-    const slug        = slugify(seriesTitle);
-    const outputPath  = path.join(productionsDir, `${slug}.pdf`);
+
+    let outputFile;
+    if (argOutput) {
+        outputFile = argOutput.endsWith('.pdf') ? argOutput : `${argOutput}.pdf`;
+    } else {
+        outputFile = `${slugify(seriesTitle)}.pdf`;
+    }
+    const outputPath = path.join(productionsDir, outputFile);
 
     console.log(`시리즈: ${seriesTitle}`);
     console.log(`에피소드: ${episodes.length}편`);
