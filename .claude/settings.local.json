@@ -1,7 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(pip3 install fpdf2)"
-    ]
+    "allow": []
   }
 }
