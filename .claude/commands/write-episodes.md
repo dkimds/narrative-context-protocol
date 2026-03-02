@@ -97,30 +97,44 @@ IC: [이름] — [설명]
 에피소드 길이: [90/120]초
 ```
 
-확인 후 즉시 **시리즈 스키마 상수(Series Constants)**를 생성하고 출력한다.
+확인 후 즉시 **시리즈 스키마 상수(Series Constants)**를 생성하고, `productions/series-constants.json`에 **Write 도구로 직접 저장**한다.
 이것은 코드의 `constants.ts`에 해당한다. 한 번 정의하면 시리즈 전체에서 동일한 UUID를 재사용한다.
 
 ```json
-// 참조용 (productions/series-constants.json 으로 저장 권장)
 {
+    "_comment": "[시리즈 제목] — 시리즈 전체 UUID 상수. 에피소드 작성 시 이 값을 그대로 복사한다.",
+    "series": {
+        "title": "[시리즈 제목]",
+        "genre": "[장르]",
+        "total_episodes": [N],
+        "target_duration_seconds": [90 또는 120],
+        "format": "short_form"
+    },
     "perspectives": {
-        "mc":   {"id": "[UUID-생성]", "author_structural_pov": "i"},
-        "ic":   {"id": "[UUID-생성]", "author_structural_pov": "you"},
-        "rs":   {"id": "[UUID-생성]", "author_structural_pov": "we"},
-        "os":   {"id": "[UUID-생성]", "author_structural_pov": "they"}
+        "mc": {"id": "[UUID-생성]", "author_structural_pov": "i",    "note": "[MC 시선 한 줄 설명]"},
+        "ic": {"id": "[UUID-생성]", "author_structural_pov": "you",  "note": "[IC 시선 한 줄 설명]"},
+        "rs": {"id": "[UUID-생성]", "author_structural_pov": "we",   "note": "[관계 시선 한 줄 설명]"},
+        "os": {"id": "[UUID-생성]", "author_structural_pov": "they", "note": "하숙집 세계 시선 — 조연/단역 공유"}
     },
     "players": {
-        "mc": {"id": "[UUID-생성]", "name": "[MC 이름]", "perspective_id": "[mc UUID]"},
-        "ic": {"id": "[UUID-생성]", "name": "[IC 이름]", "perspective_id": "[ic UUID]"}
+        "[키]": {"id": "[UUID-생성]", "name": "[MC 이름]", "role": "protagonist",        "perspective_id": "[mc UUID]", "note": "[한 줄 설명]"},
+        "[키]": {"id": "[UUID-생성]", "name": "[IC 이름]", "role": "influence_character", "perspective_id": "[ic UUID]", "note": "[한 줄 설명]"}
+    },
+    "_how_to_add_character": {
+        "step1": "players에 새 키를 추가하고 UUID를 생성한다",
+        "step2": "조연/단역은 perspective_id를 os UUID로 설정한다",
+        "step3": "에피소드 작성 시 이 파일의 UUID를 그대로 복사한다 — 절대 새로 생성하지 않는다"
     }
 }
 ```
 
+파일 저장 후 사용자에게 경로를 알린다: `productions/series-constants.json 저장 완료.`
+
 **규칙:**
 - `perspectives` 4개 UUID는 시리즈 종료까지 절대 변경하지 않는다
-- 등장인물이 추가될 때마다 `players`에 새 UUID를 생성해서 등록한다
+- 등장인물이 추가될 때마다 `players`에 새 UUID를 생성해서 `series-constants.json`에도 추가한다
 - 조연/단역은 `"they"` (os) perspective를 공유할 수 있다
-- 에피소드 작성 시 이 UUID를 그대로 복사한다 — 절대 새로 만들지 않는다
+- 에피소드 작성 시 `series-constants.json`의 UUID를 그대로 복사한다 — 절대 새로 만들지 않는다
 
 확인 전까지 에피소드 작성 시작 금지.
 
@@ -287,12 +301,16 @@ IC: [이름] — [설명]
 - `perspective_id`, `player_id` → 1회에서 정한 UUID를 모든 회차에 동일하게 사용
 - `storybeat id`, `storypoint id`, `dynamic id` → 회차별 고유값 (`beat_ep[NN]-[N]` 형식 권장)
 
-#### D. 저장 안내
+#### D. 파일 자동 저장 및 검증
 
+JSON 출력 직후, Write 도구로 `productions/ep[NN].json`에 **직접 저장**한다. 사용자가 복사할 필요 없다.
+
+저장 후 즉시 검증 명령을 실행한다:
 ```
-위 JSON을 productions/ep[NN].json 으로 저장하세요.
-저장 후 검증: npm run validate:file -- ./productions/ep[NN].json
+npm run ep -- [N]
 ```
+
+결과를 사용자에게 보고한다: `PASS` 또는 오류 내용.
 
 #### E. 다음 회차 진행 여부 확인
 
