@@ -215,7 +215,6 @@ function buildEpisodePage(doc, data) {
     const logline  = safe(story.logline);
     const duration = story.target_duration_seconds || 0;
     const moments  = st.moments || [];
-    const players  = sub.players || [];
     const dynamics = sub.dynamics || [];
     const storybeats = sub.storybeats || [];
 
@@ -314,30 +313,6 @@ function buildEpisodePage(doc, data) {
         doc.y = boxEndY + 4;
     });
 
-    // ── 인물 ──────────────────────────────────────────────────────────────────
-    if (players.length > 0) {
-        sectionHeader(doc, '인물');
-
-        const COL_W = (CW - 8) / 2;
-        const BADGE_H = 12;
-        const CARD_PADDING = 6;
-
-        for (let i = 0; i < players.length; i += 2) {
-            if (doc.y > 750) doc.addPage();
-            const rowY = doc.y;
-            const leftP  = players[i];
-            const rightP = players[i + 1];
-
-            // 왼쪽 카드
-            renderPlayerCard(doc, leftP, MARGIN, rowY, COL_W, BADGE_H, CARD_PADDING);
-            // 오른쪽 카드
-            if (rightP) renderPlayerCard(doc, rightP, MARGIN + COL_W + 8, rowY, COL_W, BADGE_H, CARD_PADDING);
-
-            doc.y = rowY + BADGE_H + 32 + 6;
-        }
-        doc.y += 4;
-    }
-
     // ── 서사 다이나믹 ─────────────────────────────────────────────────────────
     if (dynamics.length > 0) {
         if (doc.y > 740) doc.addPage();
@@ -385,25 +360,105 @@ function buildEpisodePage(doc, data) {
     }
 }
 
-function renderPlayerCard(doc, p, x, y, w, badgeH, padding) {
-    const roleColor = p.role === 'protagonist' ? C.ACCENT : '#3C64A0';
-    const cardH = badgeH + 30;
+// ── 등장인물 페이지 ───────────────────────────────────────────────────────────
 
-    // 카드 배경
-    doc.rect(x, y, w, cardH).fill('#FAFAFA').stroke();
+function collectAllPlayers(episodes) {
+    const seen = new Set();
+    const result = [];
+    for (const ep of episodes) {
+        const ps = ep?.story?.narratives?.[0]?.subtext?.players || [];
+        for (const p of ps) {
+            if (!seen.has(p.id)) {
+                seen.add(p.id);
+                result.push(p);
+            }
+        }
+    }
+    const order = { protagonist: 0, influence_character: 1 };
+    return result.sort((a, b) => (order[a.role] ?? 2) - (order[b.role] ?? 2));
+}
 
-    // 역할 배지
-    doc.rect(x + 1, y + 1, w - 2, badgeH).fill(roleColor);
-    doc.fillColor(C.WHITE).font('B').fontSize(6.5)
-       .text(`${p.role}  ${p.name}`, x + 3, y + 3, { width: w - 6, lineBreak: false });
+const ROLE_LABEL = {
+    protagonist:         '주인공',
+    influence_character: '인플루언스 캐릭터',
+    supporting:          '조연',
+};
 
-    // 오디오 (목소리 묘사)
-    const audio = safe(p.audio);
-    doc.fillColor(C.DARK).font('R').fontSize(7.5)
-       .text(
-           audio.length > 90 ? audio.slice(0, 87) + '…' : audio,
-           x + 3, y + badgeH + 5, { width: w - 6, height: 20, ellipsis: true }
-       );
+function roleColor(role) {
+    if (role === 'protagonist')         return C.ACCENT;
+    if (role === 'influence_character') return '#3C64A0';
+    return C.GRAY;
+}
+
+function buildCharacterPage(doc, episodes) {
+    doc.addPage();
+
+    const bannerY = doc.y;
+    const bannerH = 36;
+    doc.rect(0, bannerY, PAGE_W, bannerH).fill(C.ACCENT);
+    doc.fillColor(C.WHITE).font('B').fontSize(14)
+       .text('등장인물', MARGIN, bannerY + 10, { width: CW });
+    doc.y = bannerY + bannerH + 16;
+
+    const players = collectAllPlayers(episodes);
+    const LW = 28; // 레이블 열 너비
+    const TW = CW - LW - 8; // 텍스트 열 너비
+
+    players.forEach(p => {
+        if (doc.y > 700) doc.addPage();
+
+        const rc = roleColor(p.role);
+        const label = ROLE_LABEL[p.role] || p.role;
+        const cardStartY = doc.y;
+
+        // ── 이름 배지 ─────────────────────────────────────────────────────────
+        doc.rect(MARGIN, cardStartY, CW, 18).fill(rc);
+        doc.fillColor(C.WHITE).font('B').fontSize(10)
+           .text(p.name, MARGIN + 6, cardStartY + 3, { width: 120, lineBreak: false });
+        doc.fillColor(C.WHITE).font('R').fontSize(8)
+           .text(label, MARGIN + 130, cardStartY + 5, { width: CW - 136, lineBreak: false });
+        doc.y = cardStartY + 22;
+
+        // ── 외형 ─────────────────────────────────────────────────────────────
+        const visual = safe(p.visual);
+        if (visual) {
+            const vy = doc.y;
+            doc.fillColor(C.GRAY).font('B').fontSize(7.5)
+               .text('외형', MARGIN + 4, vy, { width: LW, lineBreak: false });
+            doc.fillColor(C.DARK).font('R').fontSize(8)
+               .text(visual, MARGIN + 4 + LW, vy, { width: TW });
+            if (doc.y < vy + 10) doc.y = vy + 10;
+        }
+
+        // ── 목소리 ───────────────────────────────────────────────────────────
+        const audio = safe(p.audio);
+        if (audio) {
+            const ay = doc.y;
+            doc.fillColor(C.GRAY).font('B').fontSize(7.5)
+               .text('목소리', MARGIN + 4, ay, { width: LW, lineBreak: false });
+            doc.fillColor(C.DARK).font('R').fontSize(8)
+               .text(audio, MARGIN + 4 + LW, ay, { width: TW });
+            if (doc.y < ay + 10) doc.y = ay + 10;
+        }
+
+        // ── 소개 ─────────────────────────────────────────────────────────────
+        const summary = safe(p.summary);
+        if (summary) {
+            const sy = doc.y;
+            doc.fillColor(C.GRAY).font('B').fontSize(7.5)
+               .text('소개', MARGIN + 4, sy, { width: LW, lineBreak: false });
+            doc.fillColor(C.DARK).font('R').fontSize(8)
+               .text(summary, MARGIN + 4 + LW, sy, { width: TW });
+            if (doc.y < sy + 10) doc.y = sy + 10;
+        }
+
+        // 하단 여백 + 구분선
+        doc.y += 6;
+        doc.moveTo(MARGIN, doc.y)
+           .lineTo(MARGIN + CW, doc.y)
+           .lineWidth(0.2).strokeColor(C.LINE).stroke();
+        doc.y += 10;
+    });
 }
 
 // ── 메인 ─────────────────────────────────────────────────────────────────────
@@ -450,6 +505,9 @@ function main() {
 
     // 표지
     buildCover(doc, seriesTitle, genre, episodes.length);
+
+    // 등장인물
+    buildCharacterPage(doc, episodes);
 
     // arc 요약
     buildArcSummary(doc, episodes);
