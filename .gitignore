@@ -19,3 +19,6 @@ yarn-error.log*
 # Build output
 dist/
 build/
+
+# Unreleased production content (episode scripts + generated PDFs)
+productions/
