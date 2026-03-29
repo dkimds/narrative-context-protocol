@@ -1,0 +1,12 @@
+{
+  "name": "ncp-shortform-skill",
+  "version": "1.0.0",
+  "description": "NCP 숏폼 드라마 시리즈 작성 스킬",
+  "main": "validate.js",
+  "dependencies": {
+    "ajv": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

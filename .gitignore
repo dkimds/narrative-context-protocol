@@ -3,6 +3,7 @@ node_modules/
 
 # Logs
 *.log
+*.skill
 
 # IDE directories
 .vscode/
@@ -19,3 +20,4 @@ yarn-error.log*
 # Build output
 dist/
 build/
+productions/
