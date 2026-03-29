@@ -1,0 +1,84 @@
+{
+    "schema_version": "1.3.0",
+    "story": {
+        "id": "story_microdrama-sample-ideation-phase3",
+        "title": "숏폼 드라마 샘플 시리즈 — 3차 아이데이션",
+        "genre": "로맨틱 코미디",
+        "logline": "최종결말 구간(51~60회)에서 핵심 갈등을 해소하고 캐릭터 최종 변화와 시리즈 전체 outcome/judgment를 확정한다.",
+        "created_at": "2026-03-29T00:00:00Z",
+        "ideation": {
+            "character": [
+                {
+                    "id": "idea_character_p3_001",
+                    "summary": "MC의 최종 변화(resolve): 완벽주의를 버리는 것이 아니라, 완벽하지 않아도 소통할 수 있다는 것을 받아들인다. change 아크 완성.",
+                    "title": "MC 최종 resolve — change",
+                    "notes": "1차 idea_character_p1_001 + 2차 idea_character_p2_001 해소",
+                    "tags": ["character", "MC", "resolve", "change", "결말"]
+                },
+                {
+                    "id": "idea_character_p3_002",
+                    "summary": "IC의 최종 역할: MC의 변화를 이끌어낸 촉매로서 자신의 역할을 완수. 두 사람이 대등한 파트너로 재정립.",
+                    "title": "IC 최종 역할 완수",
+                    "notes": "1차 idea_character_p1_002 + 2차 idea_character_p2_002 해소",
+                    "tags": ["character", "IC", "촉매완수", "파트너재정립"]
+                },
+                {
+                    "id": "idea_character_p3_003",
+                    "summary": "표절 의혹 해소 후 두 사람의 관계 재정립: 위기를 함께 극복하며 신뢰가 완성된다.",
+                    "title": "관계 재정립 — 신뢰 완성",
+                    "notes": "2차 idea_character_p2_003 해소",
+                    "tags": ["character", "관계재정립", "신뢰", "결말"]
+                }
+            ],
+            "theme": [
+                {
+                    "id": "idea_theme_p3_001",
+                    "summary": "시리즈 핵심 질문에 대한 답: '완벽함'보다 '진정한 소통'이 더 가치 있다. MC가 불완전한 작품을 세상에 내놓으며 테마 해소.",
+                    "title": "핵심 질문 해소 — 소통의 승리",
+                    "notes": "1차 idea_theme_p1_001 + 2차 idea_theme_p2_001 해소",
+                    "tags": ["theme", "핵심질문해소", "소통승리", "결말"]
+                },
+                {
+                    "id": "idea_theme_p3_002",
+                    "summary": "변화의 촉매 질문에 대한 답: 두 사람은 서로를 망가뜨린 것이 아니라 더 나은 버전으로 성장시켰다.",
+                    "title": "변화의 촉매 — 성장 확인",
+                    "notes": "2차 idea_theme_p2_002 해소",
+                    "tags": ["theme", "변화촉매확인", "성장", "결말"]
+                }
+            ],
+            "plot": [
+                {
+                    "id": "idea_plot_p3_001",
+                    "summary": "표절 의혹 해소 플롯: MC가 과거 트라우마(배신)를 공개적으로 밝히며 의혹을 해소. 약점을 드러내는 것이 오히려 강점이 됨.",
+                    "title": "표절 의혹 해소 — 트라우마 공개",
+                    "notes": "2차 idea_plot_p2_003 해소",
+                    "tags": ["plot", "표절해소", "트라우마공개", "결말"]
+                },
+                {
+                    "id": "idea_plot_p3_002",
+                    "summary": "시리즈 전체 outcome/judgment 확정: outcome=success (MC가 IC와 함께 히트작 완성), judgment=good (두 사람 모두 성장하고 관계도 완성).",
+                    "title": "outcome=success, judgment=good 확정",
+                    "notes": "1차 idea_plot_p1_002 + 2차 idea_plot_p2_001 해소",
+                    "tags": ["plot", "outcome", "judgment", "확정", "결말"]
+                },
+                {
+                    "id": "idea_plot_p3_003",
+                    "summary": "최종회(60회) 엔딩: 두 사람의 협업 웹툰이 정식 연재 확정되는 장면으로 마무리. 열린 결말이 아닌 완결된 해소.",
+                    "title": "최종회 엔딩 — 완결된 해소",
+                    "notes": "3차 신규 — 결말 전용",
+                    "tags": ["plot", "최종회", "엔딩", "완결"]
+                }
+            ],
+            "genre": [
+                {
+                    "id": "idea_genre_p3_001",
+                    "summary": "결말 장르 톤: 로맨틱 코미디의 관습적 해피엔딩을 충족하되, 단순한 로맨스 완성이 아닌 '두 사람의 성장'을 전면에 내세운다.",
+                    "title": "장르 관습 충족 + 성장 강조",
+                    "notes": "1차 idea_genre_p1_001 + 2차 idea_genre_p2_001 해소",
+                    "tags": ["genre", "해피엔딩", "성장강조", "결말"]
+                }
+            ]
+        },
+        "narratives": []
+    }
+}
