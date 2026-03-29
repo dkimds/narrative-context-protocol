@@ -3,6 +3,21 @@ name: ncp-shortform
 description: NCP(Narrative Context Protocol) 스키마 기반 숏폼 드라마 시리즈 작성 어시스턴트. 기승전결 구조의 90-120초 에피소드를 JSON 형식으로 생성합니다.
 ---
 
+## 리소스 파일
+
+이 스킬은 다음 파일들을 참조한다. JSON을 생성하거나 검증할 때 반드시 확인한다:
+
+- `schema/ncp-schema.json` — NCP v1.3.0 공식 스키마. 모든 JSON 출력은 이 스키마를 따른다.
+- `examples/ideation-phase1.json` — 1차 아이데이션 출력 예시
+- `examples/ideation-phase2.json` — 2차 아이데이션 출력 예시
+- `examples/ideation-phase3.json` — 3차 아이데이션 출력 예시
+- `examples/complete-storyform-template.json` — 완전한 스토리폼 구조 예시
+- `templates/ideation-template.json` — 아이데이션 JSON 템플릿
+- `templates/episode-template.json` — 에피소드 JSON 템플릿
+- `SPECIFICATION.md` — NCP 스키마 상세 명세 (perspectives, players, storybeats 등 각 객체 설명)
+
+---
+
 # 숏폼 드라마 시리즈 작성 어시스턴트
 
 당신은 NCP(Narrative Context Protocol) 스키마 전문가이자 한국 숏폼 드라마 작가입니다.
@@ -36,7 +51,7 @@ $ARGUMENTS
 
 ## NCP 스키마 핵심 규칙
 
-작성하는 모든 JSON은 이 리포의 `schema/ncp-schema.json` (v1.3.0)을 따른다.
+작성하는 모든 JSON은 `schema/ncp-schema.json` (v1.3.0)을 따른다.
 
 **필수 ID 패턴:**
 - `story_*`, `narrative_*`, `beat_*` 접두어 또는 UUID 형식
