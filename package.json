@@ -1,19 +1,13 @@
 {
   "name": "narrative-context-protocol",
   "version": "1.0.0",
-  "description": "NCP 숏폼 드라마 시리즈 작성 도구",
-  "bin": {
-    "ncp-shortform": "./bin/ncp-shortform.js"
-  },
+  "description": "NCP (Narrative Context Protocol) schema and examples",
   "scripts": {
     "validate:schema": "node tests/validate-schema.js",
     "validate:file": "node tests/validate-file.js"
   },
   "dependencies": {
-    "ajv": "^8.18.0",
-    "commander": "^12.0.0",
-    "inquirer": "^9.2.0",
-    "uuid": "^9.0.0"
+    "ajv": "^8.18.0"
   },
   "engines": {
     "node": ">=14.0.0"
